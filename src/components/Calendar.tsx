@@ -2,6 +2,7 @@ type CalendarProps = {
   availableDates: string[]; // "YYYY-MM-DD", dates that have forecast data
   selectedDate: string | null;
   onSelect: (date: string) => void;
+  icons?: Record<string, string>; // date -> OpenWeatherMap icon code
 };
 
 const WEEKDAYS = ["日", "月", "火", "水", "木", "金", "土"];
@@ -14,6 +15,7 @@ export default function Calendar({
   availableDates,
   selectedDate,
   onSelect,
+  icons,
 }: CalendarProps) {
   const availableSet = new Set(availableDates);
   const base = availableDates[0] ? new Date(availableDates[0]) : new Date();
@@ -46,6 +48,7 @@ export default function Calendar({
           const key = toDateKey(date);
           const isAvailable = availableSet.has(key);
           const isSelected = key === selectedDate;
+          const icon = icons?.[key];
           return (
             <button
               key={key}
@@ -53,14 +56,24 @@ export default function Calendar({
               disabled={!isAvailable}
               onClick={() => onSelect(key)}
               className={[
-                "aspect-square rounded-lg text-sm transition-colors",
+                "flex aspect-square flex-col items-center justify-center gap-0.5 rounded-lg text-sm transition-colors",
                 isAvailable
                   ? "cursor-pointer text-zinc-900 hover:bg-sky-100 dark:text-zinc-100 dark:hover:bg-sky-900"
                   : "cursor-default text-zinc-300 dark:text-zinc-700",
                 isSelected ? "bg-sky-500 text-white hover:bg-sky-500" : "",
               ].join(" ")}
             >
-              {date.getDate()}
+              <span>{date.getDate()}</span>
+              {icon && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={`https://openweathermap.org/img/wn/${icon}.png`}
+                  alt=""
+                  width={20}
+                  height={20}
+                  className="h-5 w-5"
+                />
+              )}
             </button>
           );
         })}

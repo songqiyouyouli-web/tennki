@@ -80,6 +80,9 @@ export default function Home() {
             availableDates={weather.days.map((d) => d.date)}
             selectedDate={selectedDate}
             onSelect={setSelectedDate}
+            icons={Object.fromEntries(
+              weather.days.map((d) => [d.date, d.representative.icon])
+            )}
           />
           <WeatherCard
             locationName={`${weather.location.name}${
