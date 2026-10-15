@@ -27,7 +27,7 @@ export default function SearchBar({
         value={city}
         onChange={(e) => setCity(e.target.value)}
         placeholder="都市名を入力 (例: Tokyo)"
-        className="flex-1 rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-sky-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+        className="flex-1 rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-sky-500"
       />
       <button
         type="submit"
@@ -41,7 +41,7 @@ export default function SearchBar({
         onClick={onUseLocation}
         disabled={loading}
         title="現在地の天気を取得"
-        className="rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+        className="rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-100 disabled:opacity-50"
       >
         現在地
       </button>

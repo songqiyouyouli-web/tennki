@@ -1,8 +1,10 @@
 export type ForecastEntry = {
   time: string; // "HH:mm"
   temp: number;
+  feelsLike: number | null; // 体感温度。取得できない場合はnull
   humidity: number;
   pop: number; // 0-100 (%)
+  precipitation: number | null; // mm (3h). null = データ取得不可, 0 = 降水なしと予想
   description: string;
   icon: string;
 };

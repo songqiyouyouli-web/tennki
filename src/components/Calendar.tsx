@@ -33,8 +33,8 @@ export default function Calendar({
   }
 
   return (
-    <div className="w-full max-w-sm rounded-2xl bg-white p-4 shadow dark:bg-zinc-900">
-      <p className="mb-2 text-center text-sm font-medium text-zinc-600 dark:text-zinc-400">
+    <div className="w-full max-w-sm rounded-2xl bg-white p-4 shadow">
+      <p className="mb-2 text-center text-sm font-medium text-zinc-600">
         {year}年{month + 1}月
       </p>
       <div className="grid grid-cols-7 gap-1 text-center text-xs text-zinc-400">
@@ -58,8 +58,8 @@ export default function Calendar({
               className={[
                 "flex aspect-square flex-col items-center justify-center gap-0.5 rounded-lg text-sm transition-colors",
                 isAvailable
-                  ? "cursor-pointer text-zinc-900 hover:bg-sky-100 dark:text-zinc-100 dark:hover:bg-sky-900"
-                  : "cursor-default text-zinc-300 dark:text-zinc-700",
+                  ? "cursor-pointer text-zinc-900 hover:bg-sky-100"
+                  : "cursor-default text-zinc-300",
                 isSelected ? "bg-sky-500 text-white hover:bg-sky-500" : "",
               ].join(" ")}
             >

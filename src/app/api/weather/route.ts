@@ -6,10 +6,23 @@ const FORECAST_URL = "https://api.openweathermap.org/data/2.5/forecast";
 
 type OwmForecastItem = {
   dt: number;
-  main: { temp: number; humidity: number };
+  main: { temp: number; humidity: number; feels_like?: number };
   weather: { description: string; icon: string }[];
   pop: number;
+  rain?: { "3h": number };
+  snow?: { "3h": number };
 };
+
+function extractPrecipitation(item: OwmForecastItem): number | null {
+  const rain = item.rain?.["3h"];
+  const snow = item.snow?.["3h"];
+  if (rain === undefined && snow === undefined) {
+    // OpenWeatherMapはこの3時間に降水が予想されない場合、
+    // rain/snowのフィールド自体を省略する。つまり「データなし」ではなく「0mm」。
+    return 0;
+  }
+  return Math.round(((rain ?? 0) + (snow ?? 0)) * 10) / 10;
+}
 
 function pickRepresentative(entries: ForecastEntry[]): ForecastEntry {
   const noonish = entries.find((e) => e.time === "12:00");
@@ -87,8 +100,13 @@ export async function GET(request: NextRequest) {
       const entry: ForecastEntry = {
         time,
         temp: Math.round(item.main.temp),
+        feelsLike:
+          item.main.feels_like !== undefined
+            ? Math.round(item.main.feels_like)
+            : null,
         humidity: item.main.humidity,
         pop: Math.round((item.pop ?? 0) * 100),
+        precipitation: extractPrecipitation(item),
         description: item.weather[0]?.description ?? "",
         icon: item.weather[0]?.icon ?? "01d",
       };
